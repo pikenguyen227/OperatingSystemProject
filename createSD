@@ -1,0 +1,7 @@
+dd if=/dev/zero of=$1 bs=4096 count=33280 
+fdisk $1
+losetup -o $(expr 2048 \* 512) --sizelimit $(expr 266239 \* 512) /dev/loop1 $1
+mke2fs -b 4096 /dev/loop1 32768 
+mount /dev/loop1 /mnt 
+(cd /mnt; mkdir bin boot dev etc user) 
+umount /mnt

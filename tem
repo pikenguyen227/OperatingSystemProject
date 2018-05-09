@@ -1,0 +1,6 @@
+ #create partition 1 = [2048 to 266239] sectors
+losetup -o $(expr 2048 \*512) -- sizelimit $(expr 266239 \*512)\ /dev/loop1 $1
+mke2fs -b 4096 /dev/loop1 32768 # mke2fs with 32K 4KB blocks
+mount /dev/loop1/mnt #mount as loop device
+(cd /mnt; mkdir bin boot dev etc user) #populate with DIRs
+umount /mnt
